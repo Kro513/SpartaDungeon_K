@@ -12,8 +12,7 @@ namespace SpartaDungeon
         
         private static Item IronArmor;
         private static Item OldSword;
-		private static Item IronArmor0;
-		private static Item OldSword0;
+
 
 		static void Main(string[] args)
         {
@@ -27,9 +26,7 @@ namespace SpartaDungeon
             player = new Character("Chad", "전사", 1, 10, 5, 100, 1500);
 
 			//아이템 정보
-			IronArmor0 = new Item("무쇠갑옷", 0, 0, "무쇠로 만들어져 튼튼한 갑옷입니다.");
 			IronArmor = new Item("무쇠갑옷", 0, 5 ,"무쇠로 만들어져 튼튼한 갑옷입니다.");
-			OldSword0 = new Item("낡은 검", 0, 0, "쉽게 볼 수 있는 낡은 검 입니다.");
 			OldSword = new Item("낡은 검", 2, 0, "쉽게 볼 수 있는 낡은 검 입니다.");
         }
 
@@ -67,8 +64,8 @@ namespace SpartaDungeon
             Console.WriteLine();
             Console.WriteLine($"LV.{player.Level}");
             Console.WriteLine($"{player.Name}({player.Job})");
-            Console.WriteLine($"공격력 : {player.Atk} {}");
-            Console.WriteLine($"방어력 : {player.Def} {}");
+            Console.WriteLine($"공격력 : {player.Atk} (장비공격력)");
+            Console.WriteLine($"방어력 : {player.Def} (장비방어력)");
             Console.WriteLine($"체  력 : {player.Hp}");
             Console.WriteLine($"Gold : {player.Gold}G");
             Console.WriteLine();
@@ -92,8 +89,8 @@ namespace SpartaDungeon
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
             Console.WriteLine();
             Console.WriteLine("[아이템 목록]");
-            Console.WriteLine($"- {IronArmor.Install}{IronArmor.Name} | 방어력 +{IronArmor.Def} | {IronArmor.Exp}");
-            Console.WriteLine($"- {OldSword.Install}{OldSword.Name} | 공격력 +{OldSword.Atk} | {OldSword.Exp}");
+            Console.WriteLine($"- {Equip}{IronArmor.Name} | 방어력 +{IronArmor.Def} | {IronArmor.Exp}");
+            Console.WriteLine($"- {Equip}{OldSword.Name} | 공격력 +{OldSword.Atk} | {OldSword.Exp}");
             Console.WriteLine();
             Console.WriteLine("1. 장착 관리");
             Console.WriteLine("0, 나가기");
@@ -119,8 +116,8 @@ namespace SpartaDungeon
             Console.WriteLine("보유 중인 아이템을 장착할 수 있습니다.");
             Console.WriteLine();
             Console.WriteLine("[아이템 목록]");
-			Console.WriteLine($"-1{Item.Equip}{IronArmor.Name} | 방어력 +{IronArmor.Def} | {IronArmor.Exp}");
-			Console.WriteLine($"-2{Item.Equip}{OldSword.Name} | 공격력 +{OldSword.Atk} | {OldSword.Exp}");
+			Console.WriteLine($"-1{Equip.Ox}{IronArmor.Name} | 방어력 +{IronArmor.Def} | {IronArmor.Exp}");
+			Console.WriteLine($"-2{Equip.Ox}{OldSword.Name} | 공격력 +{OldSword.Atk} | {OldSword.Exp}");
 			Console.WriteLine();
             Console.WriteLine("0, 나가기");
             Console.WriteLine();
@@ -133,10 +130,10 @@ namespace SpartaDungeon
 					DisplayInventory();
 					break;
                 case 1:
-                    EquipIronArmor();
+                    Equip();
                     break;
                 case 2:
-                    EquipOldSword();
+                    Equip();
                     break;
 			}
 		}
@@ -160,8 +157,29 @@ namespace SpartaDungeon
                 Console.WriteLine("잘못된 입력입니다.");
             }
         }
+
+        
     }
 
+	//장비착용 함수에 한번 선택할때마다 -1을 곱해주어 음수와 양수로 착용 여부를 구분할 수 있도록 만들고싶음.
+    public void Equip()
+	{
+		string Ox;
+		int equip = 1;
+        equip *= -1;
+
+
+		if (equip > 0)
+		{
+			Ox = "[E]";
+		}
+		else
+		{
+			Ox = "";
+		}
+	}
+
+	//캐릭터 클래스
     public class Character
     {
         public string Name { get; }
@@ -184,6 +202,7 @@ namespace SpartaDungeon
         }
     }
 
+    //아이템 클래스
     public class Item
     {
         public string Name { get; }
@@ -200,30 +219,19 @@ namespace SpartaDungeon
         }
     }
 
+    //아이템 클래스 상속받은 무쇠갑옷
     public class IronArmor : Item
     {
-		public IronArmor(string name, int atk, int def, bool install, string exp) : base(name, atk, def, exp)
+		public IronArmor(string name, int atk, int def, string exp) : base(name, atk, def, exp)
 		{
 		}
     }
-
-    public class OldSword : Item
+	//아이템 클래스 상속받은 낡은 검
+	public class OldSword : Item
     {
-		public OldSword(string name, int atk, int def, bool install, string exp) : base(name, atk, def, exp)
+		public OldSword(string name, int atk, int def, string exp) : base(name, atk, def, exp)
 		{
 		}
     }
-	public class IronArmor0 : Item
-	{
-		public IronArmor0(string name, int atk, int def, bool install, string exp) : base(name, atk, def, exp)
-		{
-		}
-	}
-
-	public class OldSword0 : Item
-	{
-		public OldSword0(string name, int atk, int def, bool install, string exp) : base(name, atk, def, exp)
-		{
-		}
-	}
+	
 }
